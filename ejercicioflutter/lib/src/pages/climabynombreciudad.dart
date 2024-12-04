@@ -4,31 +4,28 @@ import 'package:http/http.dart' as http;
 import 'package:ejercicioflutter/src/const/api_constanst.dart';
 import 'package:ejercicioflutter/src/models/clima.dart';
 
-class ClimaCoordenadasPage extends StatefulWidget {
-  const ClimaCoordenadasPage({super.key});
+class ClimaCiudadPage extends StatefulWidget {
+  const ClimaCiudadPage({super.key});
 
   @override
-  State<ClimaCoordenadasPage> createState() => _ClimaCoordenadasPageState();
+  State<ClimaCiudadPage> createState() => _ClimaCiudadPageState();
 }
 
-class _ClimaCoordenadasPageState extends State<ClimaCoordenadasPage> {
-  final TextEditingController _latitudeController = TextEditingController();
-  final TextEditingController _longitudeController = TextEditingController();
+class _ClimaCiudadPageState extends State<ClimaCiudadPage> {
+  final TextEditingController _cityController = TextEditingController();
   Clima? clima;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Consulta del Clima')),
+      appBar: AppBar(title: const Text('Consulta del Clima por Ciudad')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Ingrese las coordenadas:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            _buildTextField(_latitudeController, 'Latitud'),
-            const SizedBox(height: 10),
-            _buildTextField(_longitudeController, 'Longitud'),
+            const Text('Ingrese el nombre de la ciudad:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            _buildTextField(_cityController, 'Ciudad'),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _consultarClima,
@@ -55,7 +52,7 @@ class _ClimaCoordenadasPageState extends State<ClimaCoordenadasPage> {
         border: const OutlineInputBorder(),
         labelText: label,
       ),
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.text,
     );
   }
 
@@ -64,16 +61,15 @@ class _ClimaCoordenadasPageState extends State<ClimaCoordenadasPage> {
   }
 
   Future<void> _consultarClima() async {
-    final latitude = double.tryParse(_latitudeController.text);
-    final longitude = double.tryParse(_longitudeController.text);
+    final city = _cityController.text.trim();
 
-    if (latitude == null || longitude == null) {
-      _mostrarMensaje('Ingrese coordenadas válidas.');
+    if (city.isEmpty) {
+      _mostrarMensaje('Ingrese el nombre de una ciudad.');
       return;
     }
 
     final url = Uri.parse(
-      '${ApiConstanst.baseurl}?lat=$latitude&lon=$longitude&appid=${ApiConstanst.appid}',
+      '${ApiConstanst.baseurl}?q=$city&appid=${ApiConstanst.appid}&units=metric',
     );
 
     try {

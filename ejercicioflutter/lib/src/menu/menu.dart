@@ -24,21 +24,20 @@ class _MenuPageState extends State<MenuPage> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  //Navigator.push(context,
-                  //    MaterialPageRoute(builder: (context) => operaciones()));
                   Navigator.pushNamed(context, 'Consultas Clima por Coordenadas');
                 },
-                child: const Text('Clima')),
+                child: const Text('Clima por Coordenadas')),
             const SizedBox(
               height: 10,
             ),
             ElevatedButton(
                 onPressed: () {
-                  //Navigator.push(context,
-                  //    MaterialPageRoute(builder: (context) => operaciones()));
-                  Navigator.pushNamed(context, 'clima2');
+                  Navigator.pushNamed(context, 'Consultas Clima por Nombre de Ciudad');
                 },
-                child: const Text('consultas')),
+                child: const Text('Clima por Coordenadas')),
+            const SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),
